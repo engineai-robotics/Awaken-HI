@@ -1,0 +1,22 @@
+@font-face {
+  font-family: 'Crimson Pro';
+  font-style: normal;
+  font-weight: 200 900;
+  font-display: swap;
+  src: url('crimson-pro-variable.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Crimson Pro';
+  font-style: italic;
+  font-weight: 200 900;
+  font-display: swap;
+  src: url('crimson-pro-italic-variable.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Wordmark Hyphen';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('source-sans-3-700.woff2?v=1') format('woff2');
+  unicode-range: U+002D;
+}

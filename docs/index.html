@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f5f0">
+  <meta name="description" content="Awaken-HI is a vision-language-action model for whole-body mobile manipulation, pretrained on about 50,000 hours of egocentric human demonstrations and adapted to the EngineAI T800.">
+  <title>Awaken-HI — Technical Report</title>
+  <link rel="stylesheet" href="assets/fonts/fonts.css?v=6">
+  <link rel="stylesheet" href="styles.css?v=70">
+</head>
+<body class="on-hero">
+  <div class="progress" id="progress" aria-hidden="true"></div>
+  <header class="site-header">
+    <a class="logo" href="#top">
+      <img src="assets/engineai-icon.png" alt="" width="28" height="28" decoding="async">
+      <span>EngineAI <em>Awaken</em></span>
+    </a>
+  </header>
+
+  <section class="hero" id="hero" aria-label="Awaken-HI">
+    <div class="hero-visual hero-visual-human" aria-hidden="true">
+      <img src="assets/optimized/human-hero-logo.webp?v=1" alt="" fetchpriority="high" decoding="async">
+    </div>
+    <div class="hero-visual hero-visual-robot" aria-hidden="true">
+      <img src="assets/t800-hero.png" alt="" fetchpriority="high" decoding="async">
+    </div>
+    <div class="hero-inner">
+      <h1>
+        <span class="hero-name">Awaken-HI</span>
+        <span class="hero-line">Human experience.</span>
+        <em>Humanoid intelligence.</em>
+      </h1>
+      <p class="hero-deck">Scaling Humanoid Intelligence with Whole-Body Human Experience</p>
+    <nav class="hero-links" aria-label="Resources">
+      <a class="hero-chip" href="https://arxiv.org/abs/2611.26420" target="_blank" rel="noopener noreferrer">
+        <img class="mark-arxiv" src="assets/arxiv-logo.svg" alt="arXiv" width="24" height="24" decoding="async">
+        <span>Paper</span>
+      </a>
+      <a class="hero-chip" href="https://github.com/engineai-robotics/Awaken-HI" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.56 9.56 0 0 1 12 6.844a9.56 9.56 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>
+        <span>Code</span>
+      </a>
+      <a class="hero-chip" href="https://huggingface.co/datasets/EngineAI-Embodied/Awaken-Human" target="_blank" rel="noopener noreferrer">
+        <img class="mark-huggingface" src="assets/huggingface-logo.svg" alt="Hugging Face" width="24" height="24" decoding="async">
+        <span>Data</span>
+      </a>
+    </nav>
+    </div>
+  </section>
+
+  <section class="rollout" id="rollout" data-clip="household" aria-label="Rollouts">
+    <div class="rollout-inner">
+      <div class="rollout-layout">
+        <div class="rollout-player">
+          <div class="rollout-stage is-intro">
+            <video id="rollout-video" data-trim-start="0.9009" webkit-playsinline data-poster="assets/rollouts-1117/household-1-trimmed-poster.webp?v=1" muted playsinline preload="none" data-src="assets/rollouts-1117/household-1-trimmed.mp4?v=2"></video>
+            <div class="rollout-inset" id="rollout-inset">
+              <video id="rollout-inset-video" poster="assets/rollouts-1117/household-2-aligned-trimmed-poster.webp?v=1" muted playsinline webkit-playsinline preload="none" disablepictureinpicture disableremoteplayback aria-hidden="true"></video>
+              <span id="rollout-inset-label">Alternate view</span>
+            </div>
+            <aside class="rollout-instructions" aria-label="Current instruction">
+              <div class="rollout-subtitle">
+                <p id="rollout-instruction-text" lang="en" aria-live="polite">Walk to the table and raise both hands.</p>
+              </div>
+            </aside>
+            <div class="rollout-intro" aria-hidden="true"><span>Awaken-HI</span></div>
+            <button class="rollout-play" type="button" aria-label="Play">
+              <svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true"><path d="M8 5v14l12-7z" fill="currentColor"></path></svg>
+            </button>
+            <div class="rollout-speed" role="group" aria-label="Playback speed">
+              <button type="button" data-rate="0.5">0.5</button>
+              <button type="button" data-rate="1" aria-pressed="true">1</button>
+              <button type="button" data-rate="1.5">1.5</button>
+              <button type="button" data-rate="2">2</button>
+            </div>
+          </div>
+          <div class="rollout-seek">
+            <span id="rollout-elapsed">0:00</span>
+            <input id="rollout-range" type="range" min="0" max="1000" value="0" step="1" disabled aria-label="Playback position">
+            <span id="rollout-duration">0:00</span>
+          </div>
+        </div>
+
+      </div>
+      <div class="rollout-picks" role="group" aria-label="Rollouts">
+        <button type="button" class="is-on" aria-pressed="true" data-clip="household" data-trim-start="0.9009" data-chapters="true" data-src="assets/rollouts-1117/household-1-trimmed.mp4?v=2" data-poster="assets/rollouts-1117/household-1-trimmed-poster.webp?v=1" data-inset-src="assets/rollouts-1117/household-2-aligned-trimmed.mp4?v=1" data-inset-poster="assets/rollouts-1117/household-2-aligned-trimmed-poster.webp?v=1" data-inset-label="Alternate view" data-cap="Household · continuous one-take rollout">
+          <img src="assets/rollouts-1117/household-1-trimmed-poster.webp?v=1" alt="" decoding="async" loading="lazy">
+          <span>Household · one take</span>
+        </button>
+        <button type="button" aria-pressed="false" data-clip="factory" data-trim-start="0.9009" data-src="assets/rollouts-1117/factory-side-2-trimmed.mp4?v=2" data-poster="assets/rollouts-1117/factory-side-2-trimmed-poster.webp?v=1" data-cap="Factory · continuous one-take side view">
+          <img src="assets/rollouts-1117/factory-side-2-trimmed-poster.webp?v=1" alt="" decoding="async" loading="lazy">
+          <span>Factory · side view</span>
+        </button>
+      </div>
+      <p class="rollout-cap">Household · continuous one-take rollout</p>
+    </div>
+  </section>
+
+  <div class="shell">
+  <nav class="toc" id="toc" aria-label="On this page">
+    <p>On this page</p>
+    <ol>
+      <li><a href="#intro">Introduction</a></li>
+      <li><a href="#model">Model</a></li>
+      <li><a href="#data">Pretraining data</a></li>
+      <li><a href="#scaling">Scaling</a></li>
+      <li><a href="#results">Real-world evaluation</a></li>
+      <li><a href="#cite">Citation</a></li>
+    </ol>
+  </nav>
+  <main id="top" class="page">
+    <section class="sec" id="intro">
+      <h2>Introduction</h2>
+      <p>Awaken-HI is a vision-language-action model for humanoid loco-manipulation that coordinates walking, posture, and hand movements. To scale data collection beyond robot teleoperation, we learn from first-person human demonstrations with synchronized whole-body motion. We reconstruct 3D hand motion from video and annotate demonstrations with subtask descriptions and per-frame depth maps. Because differences in body proportions and joints can alter postures and hand trajectories during retargeting, we retain both the original human motion and the retargeted robot actions. During pretraining, a shared action expert predicts both alongside camera-frame wrist poses. Separate heads predict current and future depth and describe the current subtask. We then post-train on about 150 hours of T800 teleoperation using the same robot action interface.</p>
+      <ul class="intro-points">
+        <li>EngineAI-Human-50K pairs about 50,000 hours of egocentric stereo video with synchronized whole-body motion, captured using lightweight wearables under one protocol. It covers over 100 skills across homes, workplaces, retail, and storage.</li>
+        <li>From 5,000 to 50,000 pretraining hours, held-out action error falls by an empirical scaling law and mean success rises on three household tasks with fixed post-training data. Ablations show that original human motion supervision further lowers error and improves real-robot success.</li>
+        <li>With matched T800 post-training data, Awaken-HI surpasses GR00T N1.7 and π₀.₅ on all eight individual tasks (93.75% mean success) and leads on industrial and household long-horizon tasks. It generalizes to new pairings of familiar objects and destinations and to objects unseen during post-training.</li>
+      </ul>
+    </section>
+
+    <article>
+      <hr>
+
+      <section class="sec" id="model">
+        <h2>Model</h2>
+        <p>Qwen3-VL encodes the head-camera image and the task instruction. Those features condition one diffusion transformer by cross-attention. The T800 action, human whole-body and hand motion, and wrist branches share a state encoder and this transformer, so human trajectories train the backbone that generates robot actions. Wrist and depth prediction add supervision for interaction poses and scene geometry. The branch executed on the robot is the T800 action.</p>
+        <figure class="wide architecture-figure">
+          <div class="model-architecture" id="model-frame">
+            <div class="ma-scroll" tabindex="0" role="region" aria-label="Animated model architecture; scroll horizontally on small screens">
+              <div class="ma-canvas">
+                <img class="ma-svg" src="assets/architecture/method-towel.svg?v=2" width="866" height="358" alt="Awaken-HI architecture with ego pretraining on a towel-folding example and robot fine-tuning on a cart-picking example." loading="lazy" decoding="async">
+                <div class="ma-video-layer"></div>
+              </div>
+            </div>
+            <p class="ma-scroll-hint">Scroll to explore →</p>
+          </div>
+          <figcaption>Pretraining jointly supervises human motion, retargeted robot actions, wrist poses, depth, and subtasks through one action expert. Post-training fully fine-tunes Qwen3-VL and the action pathway on real robot actions only.</figcaption>
+        </figure>
+      </section>
+
+      <hr>
+
+      <section class="sec" id="data">
+        <h2>Pretraining data</h2>
+        <p>EngineAI-Human-50K keeps 50,000 hours of whole-body egocentric demonstrations after deduplication and validity filtering: about 17.02 million episodes, 5.41 billion pose frames, and 11.18 million valid language instructions. A PICO headset and five body-worn trackers record stereo RGB and body motion together. Collectors follow the task and vary path, stance, and grasp, rather than repeating one fixed route.</p>
+        <figure class="wide">
+          <div class="frame mosaic-frame">
+            <video id="ego-mosaic" data-poster="assets/optimized/pretraining-t800-natural-walk-mosaic-poster.webp?v=1" muted loop playsinline preload="none" controls data-src="assets/pretraining-t800-natural-walk-mosaic.mp4?v=1"></video>
+          </div>
+          <figcaption>Egocentric views from the pretraining corpus, shown with the whole-body pose retargeted to T800.</figcaption>
+        </figure>
+      </section>
+
+      <hr>
+
+      <section class="sec" id="scaling">
+        <h2>Scaling egocentric data</h2>
+        <p>We compare four nested pretraining runs (5k, 12.5k, 25k, 50k hours) on one held-out set. From 10% to 100% of the data, the T800 branch’s normalized prediction MSE over valid action dimensions drops ~11.0%, and validation flow-matching loss drops 18.8%. Power-law fits L(D) = AD^(−α) give α = 0.051 and 0.090, respectively. Smaller runs plateau and regress. The full run improves for longer.</p>
+        <figure class="wide" id="scale-figure">
+          <div class="scale-controls">
+            <button class="scale-replay" id="scale-replay" type="button" hidden>↻ <span>Replay</span></button>
+          </div>
+          <div class="scale-frame" id="scale-frame">
+            <picture id="scale-still">
+              <source media="(max-width: 759px)" srcset="assets/data-scaling-fig6-mobile.svg?v=3">
+              <img src="assets/data-scaling-fig6.svg?v=2" alt="Inference MSE, validation loss, held-out scaling, and real-robot success rates at 10%, 25%, 50%, and 100% of the pretraining data." decoding="async" loading="lazy">
+            </picture>
+          </div>
+          <figcaption>Training curves, held-out errors, and real-robot success rates at four pretraining data fractions. Mean real-robot success increases from 56.7% at 10% of the data to 90.0% at full scale.</figcaption>
+        </figure>
+      </section>
+
+      <hr>
+
+      <section class="sec" id="results">
+        <h2>Real-world evaluation</h2>
+        <p>The charts compare Awaken-HI, π₀.₅, and GR00T N1.7 on seven individual tasks and two long-horizon tasks on T800. Each method trains one multitask policy on the same 150 hours of teleoperation. Each task has ten trials with shared initial configurations. Long-horizon success requires completing every step in order without a reset.</p>
+        <div class="benches wide">
+          <article class="bench" data-tasks="t2 t3 t4 t5">
+            <h3 id="bench-industrial-title">Industrial stocking task</h3>
+            <p>Tasks 2–5 in one run: pick up the black and white items, turn, and place them on the middle and upper shelves.</p>
+            <div class="bench-chart" id="bench-industrial" role="group" aria-labelledby="bench-industrial-title">
+              <div class="bench-ylab" aria-hidden="true"><span>100</span><span>50</span><span>0</span></div>
+              <div class="bench-plot">
+                <div class="bench-scores" aria-hidden="true">
+                  <span><i class="sw pi"></i><b>π₀.₅ 10%</b></span>
+                  <span><i class="sw gr"></i><b>GR00T N1.7 30%</b></span>
+                  <span><i class="sw hi"></i><b>Awaken-HI 90%</b></span>
+                </div>
+                <button type="button" class="bench-bar" data-model="pi" style="--bar:var(--pi); --h:10%" aria-label="π₀.₅ 10%"><span class="bench-track"><i></i></span><small>π₀.₅</small></button>
+                <button type="button" class="bench-bar" data-model="gr" style="--bar:var(--gr); --h:30%" aria-label="GR00T N1.7 30%"><span class="bench-track"><i></i></span><small>GR00T N1.7</small></button>
+                <button type="button" class="bench-bar" data-model="hi" style="--bar:var(--hi); --h:90%" aria-label="Awaken-HI 90%"><span class="bench-track"><i></i></span><small>Awaken-HI</small></button>
+              </div>
+            </div>
+          </article>
+          <article class="bench" data-tasks="t6 t7 t8">
+            <h3 id="bench-household-title">Household tidying task</h3>
+            <p>Tasks 6–8 in one run: sort with both hands, hang a garment, and crouch to carry the laundry basket.</p>
+            <div class="bench-chart" id="bench-household" role="group" aria-labelledby="bench-household-title">
+              <div class="bench-ylab" aria-hidden="true"><span>100</span><span>50</span><span>0</span></div>
+              <div class="bench-plot">
+                <div class="bench-scores" aria-hidden="true">
+                  <span><i class="sw pi"></i><b>π₀.₅ 20%</b></span>
+                  <span><i class="sw gr"></i><b>GR00T N1.7 10%</b></span>
+                  <span><i class="sw hi"></i><b>Awaken-HI 80%</b></span>
+                </div>
+                <button type="button" class="bench-bar" data-model="pi" style="--bar:var(--pi); --h:20%" aria-label="π₀.₅ 20%"><span class="bench-track"><i></i></span><small>π₀.₅</small></button>
+                <button type="button" class="bench-bar" data-model="gr" style="--bar:var(--gr); --h:10%" aria-label="GR00T N1.7 10%"><span class="bench-track"><i></i></span><small>GR00T N1.7</small></button>
+                <button type="button" class="bench-bar" data-model="hi" style="--bar:var(--hi); --h:80%" aria-label="Awaken-HI 80%"><span class="bench-track"><i></i></span><small>Awaken-HI</small></button>
+              </div>
+            </div>
+          </article>
+          <article class="bench bench-detail" id="task-panel" role="tabpanel" aria-labelledby="task-tab-t2">
+            <h3 id="bench-task-title">Black Material Picking</h3>
+            <div class="bench-chart" id="bench-task" role="group" aria-labelledby="bench-task-title">
+              <div class="bench-ylab" aria-hidden="true"><span>100</span><span>50</span><span>0</span></div>
+              <div class="bench-plot">
+                <div class="bench-scores" aria-hidden="true">
+                  <span><i class="sw pi"></i><b>π₀.₅ 60%</b></span>
+                  <span><i class="sw gr"></i><b>GR00T N1.7 40%</b></span>
+                  <span><i class="sw hi"></i><b>Awaken-HI 100%</b></span>
+                </div>
+                <button type="button" class="bench-bar" data-model="pi" style="--bar:var(--pi); --h:60%" aria-label="π₀.₅ 60%"><span class="bench-track"><i></i></span><small>π₀.₅</small></button>
+                <button type="button" class="bench-bar" data-model="gr" style="--bar:var(--gr); --h:40%" aria-label="GR00T N1.7 40%"><span class="bench-track"><i></i></span><small>GR00T N1.7</small></button>
+                <button type="button" class="bench-bar" data-model="hi" style="--bar:var(--hi); --h:100%" aria-label="Awaken-HI 100%"><span class="bench-track"><i></i></span><small>Awaken-HI</small></button>
+              </div>
+            </div>
+          </article>
+        </div>
+        <div class="task-keys" id="task-keys">
+          <div class="pills" id="pills" role="tablist" aria-label="Evaluation tasks">
+            <button type="button" role="tab" id="task-tab-t2" aria-controls="task-panel" aria-selected="true" data-task="t2">Black-item pickup</button>
+            <button type="button" role="tab" id="task-tab-t3" aria-controls="task-panel" aria-selected="false" data-task="t3">Black-item stocking</button>
+            <button type="button" role="tab" id="task-tab-t4" aria-controls="task-panel" aria-selected="false" data-task="t4">White-item pickup</button>
+            <button type="button" role="tab" id="task-tab-t5" aria-controls="task-panel" aria-selected="false" data-task="t5">White-item stocking</button>
+            <button type="button" role="tab" id="task-tab-t6" aria-controls="task-panel" aria-selected="false" data-task="t6">Bimanual storage</button>
+            <button type="button" role="tab" id="task-tab-t7" aria-controls="task-panel" aria-selected="false" data-task="t7">Garment hanging</button>
+            <button type="button" role="tab" id="task-tab-t8" aria-controls="task-panel" aria-selected="false" data-task="t8">Laundry basket</button>
+          </div>
+          <div class="story-list" id="story-list"></div>
+        </div>
+      </section>
+
+      <hr>
+
+      <section class="sec" id="cite">
+        <h2>Citation</h2>
+        <div class="cite wide">
+          <pre id="bibtex">@misc{engineai2026awakenhiscalinghumanoidintelligence,
+      title={Awaken-HI: Scaling Humanoid Intelligence with Whole-Body Human Experience},
+      author={EngineAI},
+      year={2026},
+      eprint={2611.26420},
+      archivePrefix={arXiv},
+      primaryClass={cs.RO},
+      url={https://arxiv.org/abs/2611.26420},
+}</pre>
+          <button class="btn" id="copy-bib" type="button">Copy BibTeX</button>
+        </div>
+      </section>
+    </article>
+
+    <div class="visitor-section" id="visitors">
+      <canvas id="visitor-globe" role="img" aria-label="Rotating globe showing page views by country or region"></canvas>
+      <div id="globe-tooltip" role="status" hidden></div>
+    </div>
+
+    <footer class="colophon">
+      <span>EngineAI</span>
+      <a href="https://www.engineai.com.cn/" target="_blank" rel="noreferrer">engineai.com.cn</a>
+      <a href="#top">Back to top</a>
+    </footer>
+  </main>
+  </div>
+  <script src="script.js?v=46"></script>
+  <script src="assets/model-architecture.js?v=9"></script>
+  
+  <script src="visitors.js?v=8"></script>
+</body>
+</html>
