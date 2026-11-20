@@ -4,22 +4,22 @@ const TASKS = [
     enAlt:'Black-item pickup: approach the cart, reach and grasp, then lift and hold.'},
   {id:'t3', pi:50, gr:70, hi:100,
     en:'Black Material Shelf Stocking',
-    enAlt:'Black-item placement: turn to the shelf, place the item on the middle shelf, then withdraw.'},
+    enAlt:'The robot turns with the black material, places it on the middle shelf, and turns back.'},
   {id:'t4', pi:60, gr:60, hi:90,
     en:'White Material Picking',
     enAlt:'White-item pickup: reach, grasp, and lift the white item from the cart.'},
   {id:'t5', pi:60, gr:80, hi:100,
     en:'White Material Shelf Stocking',
-    enAlt:'White-item placement: turn to the shelf, place the item on the upper shelf, then withdraw.'},
+    enAlt:'The robot turns with the white material, places it on the upper shelf, and turns back.'},
   {id:'t6', pi:40, gr:30, hi:80,
     en:'Bimanual Object Storage',
-    enAlt:'Object sorting: pick up objects, turn to the bins, and sort them.'},
+    enAlt:'The robot picks up a cup and a toy car and sorts them into separate bins.'},
   {id:'t7', pi:80, gr:80, hi:100,
     en:'Garment Hanging',
     enAlt:'Garment hanging: pick up a garment, turn to the rack, and hang it.'},
   {id:'t8', pi:50, gr:40, hi:90,
     en:'Laundry Basket Relocation',
-    enAlt:'Laundry-basket transfer: open the wardrobe, lift the basket, and carry it down.'}
+    enAlt:'The robot opens the wardrobe, crouches to lift the laundry basket, and sets it on the floor.'}
 ];
 
 let selected = TASKS[0].id;

@@ -23,9 +23,9 @@
 
 ## ✨ Highlights
 
-- **50,000 hours of whole-body egocentric data.** To our knowledge, EngineAI-Human-50K is the largest dataset pairing first-person video and human body and hand motion with retargeted humanoid actions.
-- **Joint human and robot motion learning.** A shared Diffusion Transformer predicts original human body and hand motion, retargeted T800 actions, and wrist poses, with additional depth and subtask supervision.
-- **Lower prediction error at larger data scales.** Scaling pretraining from 5,000 to 50,000 hours reduced held-out action prediction MSE by **11.0%** and flow-matching loss by **18.8%**.
+- **Awaken-HI** is a VLA model for humanoid loco-manipulation that predicts human motion and retargeted robot actions with one action expert.
+- **Awaken-Human** provides 50,000 hours of first-person stereo video aligned with full-body human motion across diverse tasks and settings.
+- **Scaling and generalization.** With more human pretraining data, action prediction error fell according to an empirical scaling law and real-robot success rose. The policy handled objects unseen in robot post-training and new object–destination pairings.
 
 ## 📋 TODO
 
@@ -43,7 +43,7 @@ We plan to open-source resources in stages.
 
 Highlights from two continuous T800 rollouts, shown at 1.5–4× speed.
 
-### 🏠 Household · One take
+### 🏠 Household
 
 <table align="center">
   <tr>
@@ -58,7 +58,7 @@ Highlights from two continuous T800 rollouts, shown at 1.5–4× speed.
   </tr>
 </table>
 
-### 🏭 Factory · Side view
+### 🏭 Factory
 
 <table align="center">
   <tr>
@@ -75,7 +75,7 @@ Highlights from two continuous T800 rollouts, shown at 1.5–4× speed.
 
 ## 🧠 Method
 
-Awaken-HI is a vision-language-action model for whole-body mobile manipulation. After egocentric pretraining, approximately **150 hours** of T800 teleoperation adapt the model to real-robot control.
+Awaken-HI is a vision-language-action model for whole-body mobile manipulation.
 
 <p align="center">
   <img src="docs/assets/engine-hi-method-full.webp" width="960" alt="Animated Awaken-HI architecture showing ego pretraining on towel folding and robot fine-tuning on cart picking">
@@ -86,8 +86,8 @@ Awaken-HI is a vision-language-action model for whole-body mobile manipulation. 
 | Evaluation | π₀.₅ | GR00T N1.7 | Awaken-HI |
 | :--- | ---: | ---: | ---: |
 | Eight individual tasks (mean) | 57.5% | 58.75% | **93.75%** |
-| Industrial long-horizon sequence | 10% | 30% | **90%** |
-| Household long-horizon sequence | 20% | 10% | **80%** |
+| Industrial stocking task | 10% | 30% | **90%** |
+| Household tidying task | 20% | 10% | **80%** |
 | Four unseen object–destination pairings (mean) | 10% | 17.5% | **90%** |
 
 ## 📖 Citation

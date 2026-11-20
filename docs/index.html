@@ -4,10 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f7f5f0">
-  <meta name="description" content="Awaken-HI is a vision-language-action model for whole-body mobile manipulation, pretrained on about 50,000 hours of egocentric human demonstrations and adapted to the EngineAI T800.">
+  <meta name="description" content="Awaken-HI is a vision-language-action model for humanoid loco-manipulation, pretrained on 50,000 hours of egocentric human demonstrations and post-trained on EngineAI T800 teleoperation data.">
   <title>Awaken-HI — Technical Report</title>
   <link rel="stylesheet" href="assets/fonts/fonts.css?v=6">
-  <link rel="stylesheet" href="styles.css?v=70">
+  <link rel="stylesheet" href="styles.css?v=73">
 </head>
 <body class="on-hero">
   <div class="progress" id="progress" aria-hidden="true"></div>
@@ -84,16 +84,16 @@
 
       </div>
       <div class="rollout-picks" role="group" aria-label="Rollouts">
-        <button type="button" class="is-on" aria-pressed="true" data-clip="household" data-trim-start="0.9009" data-chapters="true" data-src="assets/rollouts-1117/household-1-trimmed.mp4?v=2" data-poster="assets/rollouts-1117/household-1-trimmed-poster.webp?v=1" data-inset-src="assets/rollouts-1117/household-2-aligned-trimmed.mp4?v=1" data-inset-poster="assets/rollouts-1117/household-2-aligned-trimmed-poster.webp?v=1" data-inset-label="Alternate view" data-cap="Household · continuous one-take rollout">
+        <button type="button" class="is-on" aria-pressed="true" data-clip="household" data-trim-start="0.9009" data-chapters="true" data-src="assets/rollouts-1117/household-1-trimmed.mp4?v=2" data-poster="assets/rollouts-1117/household-1-trimmed-poster.webp?v=1" data-inset-src="assets/rollouts-1117/household-2-aligned-trimmed.mp4?v=1" data-inset-poster="assets/rollouts-1117/household-2-aligned-trimmed-poster.webp?v=1" data-inset-label="Alternate view" data-cap="Household tidying · continuous rollout">
           <img src="assets/rollouts-1117/household-1-trimmed-poster.webp?v=1" alt="" decoding="async" loading="lazy">
-          <span>Household · one take</span>
+          <span>Household tidying</span>
         </button>
-        <button type="button" aria-pressed="false" data-clip="factory" data-trim-start="0.9009" data-src="assets/rollouts-1117/factory-side-2-trimmed.mp4?v=2" data-poster="assets/rollouts-1117/factory-side-2-trimmed-poster.webp?v=1" data-cap="Factory · continuous one-take side view">
+        <button type="button" aria-pressed="false" data-clip="factory" data-trim-start="0.9009" data-src="assets/rollouts-1117/factory-side-2-trimmed.mp4?v=2" data-poster="assets/rollouts-1117/factory-side-2-trimmed-poster.webp?v=1" data-cap="Industrial stocking · continuous rollout, side view">
           <img src="assets/rollouts-1117/factory-side-2-trimmed-poster.webp?v=1" alt="" decoding="async" loading="lazy">
-          <span>Factory · side view</span>
+          <span>Industrial stocking</span>
         </button>
       </div>
-      <p class="rollout-cap">Household · continuous one-take rollout</p>
+      <p class="rollout-cap">Household tidying · continuous rollout</p>
     </div>
   </section>
 
@@ -101,22 +101,22 @@
   <nav class="toc" id="toc" aria-label="On this page">
     <p>On this page</p>
     <ol>
-      <li><a href="#intro">Introduction</a></li>
+      <li><a href="#highlight">Highlight</a></li>
       <li><a href="#model">Model</a></li>
       <li><a href="#data">Pretraining data</a></li>
       <li><a href="#scaling">Scaling</a></li>
       <li><a href="#results">Real-world evaluation</a></li>
+      <li><a href="#conclusion">Conclusion</a></li>
       <li><a href="#cite">Citation</a></li>
     </ol>
   </nav>
   <main id="top" class="page">
-    <section class="sec" id="intro">
-      <h2>Introduction</h2>
-      <p>Awaken-HI is a vision-language-action model for humanoid loco-manipulation that coordinates walking, posture, and hand movements. To scale data collection beyond robot teleoperation, we learn from first-person human demonstrations with synchronized whole-body motion. We reconstruct 3D hand motion from video and annotate demonstrations with subtask descriptions and per-frame depth maps. Because differences in body proportions and joints can alter postures and hand trajectories during retargeting, we retain both the original human motion and the retargeted robot actions. During pretraining, a shared action expert predicts both alongside camera-frame wrist poses. Separate heads predict current and future depth and describe the current subtask. We then post-train on about 150 hours of T800 teleoperation using the same robot action interface.</p>
+    <section class="sec" id="highlight">
+      <h2>Highlight</h2>
       <ul class="intro-points">
-        <li>EngineAI-Human-50K pairs about 50,000 hours of egocentric stereo video with synchronized whole-body motion, captured using lightweight wearables under one protocol. It covers over 100 skills across homes, workplaces, retail, and storage.</li>
-        <li>From 5,000 to 50,000 pretraining hours, held-out action error falls by an empirical scaling law and mean success rises on three household tasks with fixed post-training data. Ablations show that original human motion supervision further lowers error and improves real-robot success.</li>
-        <li>With matched T800 post-training data, Awaken-HI surpasses GR00T N1.7 and π₀.₅ on all eight individual tasks (93.75% mean success) and leads on industrial and household long-horizon tasks. It generalizes to new pairings of familiar objects and destinations and to objects unseen during post-training.</li>
+        <li><strong>Awaken-HI</strong> uses a shared action expert for humanoid loco-manipulation to predict original human motion together with robot actions.</li>
+        <li><strong>Awaken-Human</strong> aligns 50,000 hours of first-person stereo recordings with full-body human motion across diverse activities and settings.</li>
+        <li>With more human pretraining data, action prediction error falls along <strong>an empirical power law and real-robot success improves</strong>. Awaken-HI generalizes to new object–destination pairings and objects unseen during robot post-training.</li>
       </ul>
     </section>
 
@@ -125,7 +125,7 @@
 
       <section class="sec" id="model">
         <h2>Model</h2>
-        <p>Qwen3-VL encodes the head-camera image and the task instruction. Those features condition one diffusion transformer by cross-attention. The T800 action, human whole-body and hand motion, and wrist branches share a state encoder and this transformer, so human trajectories train the backbone that generates robot actions. Wrist and depth prediction add supervision for interaction poses and scene geometry. The branch executed on the robot is the T800 action.</p>
+        <p>Awaken-HI uses a shared action expert so that original human motion directly trains the network that predicts T800 actions. During pretraining, three branches learn to predict human body and hand motion, retargeted T800 actions, and camera-frame wrist poses using flow matching. They share a state encoder and a diffusion transformer that cross-attends to the image and instruction features from Qwen3-VL. On the robot, the T800 action branch uses the head-camera RGB image and robot state to generate a sequence of 40-dimensional whole-body targets for the low-level controller.</p>
         <figure class="wide architecture-figure">
           <div class="model-architecture" id="model-frame">
             <div class="ma-scroll" tabindex="0" role="region" aria-label="Animated model architecture; scroll horizontally on small screens">
@@ -136,7 +136,7 @@
             </div>
             <p class="ma-scroll-hint">Scroll to explore →</p>
           </div>
-          <figcaption>Pretraining jointly supervises human motion, retargeted robot actions, wrist poses, depth, and subtasks through one action expert. Post-training fully fine-tunes Qwen3-VL and the action pathway on real robot actions only.</figcaption>
+          <figcaption>Two-stage training of Awaken-HI. Pretraining on Awaken-Human (left) also supervises current and future scene depth and a description of the current subtask. Fine-tuning on T800 teleoperation data (right) updates Qwen3-VL, the shared action expert, and the T800 action branch using only the robot action loss.</figcaption>
         </figure>
       </section>
 
@@ -144,20 +144,20 @@
 
       <section class="sec" id="data">
         <h2>Pretraining data</h2>
-        <p>EngineAI-Human-50K keeps 50,000 hours of whole-body egocentric demonstrations after deduplication and validity filtering: about 17.02 million episodes, 5.41 billion pose frames, and 11.18 million valid language instructions. A PICO headset and five body-worn trackers record stereo RGB and body motion together. Collectors follow the task and vary path, stance, and grasp, rather than repeating one fixed route.</p>
+        <p>Awaken-Human pairs 50,000 hours of egocentric video with synchronized whole-body human motion. The curated dataset spans more than 100 skills and contains 17.02 million episodes, 5.41 billion pose frames, and 11.18 million valid language instructions. A PICO headset and five body-worn trackers record demonstrations as participants adapt how they walk, stand, and grasp to each setting. The annotation pipeline recovers 3D hand motion from video and adds subtask descriptions and stereo-derived depth.</p>
         <figure class="wide">
           <div class="frame mosaic-frame">
             <video id="ego-mosaic" data-poster="assets/optimized/pretraining-t800-natural-walk-mosaic-poster.webp?v=1" muted loop playsinline preload="none" controls data-src="assets/pretraining-t800-natural-walk-mosaic.mp4?v=1"></video>
           </div>
-          <figcaption>Egocentric views from the pretraining corpus, shown with the whole-body pose retargeted to T800.</figcaption>
+          <figcaption>Awaken-Human examples pair first-person footage with whole-body motion retargeted to T800 for action supervision.</figcaption>
         </figure>
       </section>
 
       <hr>
 
       <section class="sec" id="scaling">
-        <h2>Scaling egocentric data</h2>
-        <p>We compare four nested pretraining runs (5k, 12.5k, 25k, 50k hours) on one held-out set. From 10% to 100% of the data, the T800 branch’s normalized prediction MSE over valid action dimensions drops ~11.0%, and validation flow-matching loss drops 18.8%. Power-law fits L(D) = AD^(−α) give α = 0.051 and 0.090, respectively. Smaller runs plateau and regress. The full run improves for longer.</p>
+        <h2>Scaling human experience</h2>
+        <p>We evaluate four nested pretraining subsets (5k, 12.5k, 25k, and 50k hours) on the same 100-hour held-out set. The scaling fits compare checkpoints at equivalent epochs. From the smallest subset to the full corpus, inference MSE on normalized T800 actions falls by about 11%, and validation flow-matching loss falls by 18.8%. Both metrics follow empirical power-law scaling with the amount of human pretraining data.</p>
         <figure class="wide" id="scale-figure">
           <div class="scale-controls">
             <button class="scale-replay" id="scale-replay" type="button" hidden>↻ <span>Replay</span></button>
@@ -168,7 +168,7 @@
               <img src="assets/data-scaling-fig6.svg?v=2" alt="Inference MSE, validation loss, held-out scaling, and real-robot success rates at 10%, 25%, 50%, and 100% of the pretraining data." decoding="async" loading="lazy">
             </picture>
           </div>
-          <figcaption>Training curves, held-out errors, and real-robot success rates at four pretraining data fractions. Mean real-robot success increases from 56.7% at 10% of the data to 90.0% at full scale.</figcaption>
+          <figcaption>At each scale, robot post-training starts from the checkpoint with the lowest inference MSE. With fixed robot data, mean success on three household tasks rises from 56.7% to 90.0%.</figcaption>
         </figure>
       </section>
 
@@ -176,11 +176,11 @@
 
       <section class="sec" id="results">
         <h2>Real-world evaluation</h2>
-        <p>The charts compare Awaken-HI, π₀.₅, and GR00T N1.7 on seven individual tasks and two long-horizon tasks on T800. Each method trains one multitask policy on the same 150 hours of teleoperation. Each task has ten trials with shared initial configurations. Long-horizon success requires completing every step in order without a reset.</p>
+        <p>Awaken-HI averages 93.75% success on individual T800 tasks, ahead of π₀.₅ and GR00T N1.7. Each method post-trains one multitask policy on the same 150 hours of teleoperation data and runs ten trials per task from matched starting configurations. Long-horizon trials succeed when the robot completes every stage in order without resets.</p>
         <div class="benches wide">
           <article class="bench" data-tasks="t2 t3 t4 t5">
             <h3 id="bench-industrial-title">Industrial stocking task</h3>
-            <p>Tasks 2–5 in one run: pick up the black and white items, turn, and place them on the middle and upper shelves.</p>
+            <p>The robot picks black material from the cart and stocks the middle shelf, then picks white material and stocks the upper shelf.</p>
             <div class="bench-chart" id="bench-industrial" role="group" aria-labelledby="bench-industrial-title">
               <div class="bench-ylab" aria-hidden="true"><span>100</span><span>50</span><span>0</span></div>
               <div class="bench-plot">
@@ -197,7 +197,7 @@
           </article>
           <article class="bench" data-tasks="t6 t7 t8">
             <h3 id="bench-household-title">Household tidying task</h3>
-            <p>Tasks 6–8 in one run: sort with both hands, hang a garment, and crouch to carry the laundry basket.</p>
+            <p>The robot sorts a cup and toy car into separate bins, hangs a garment, then moves a basket out of the wardrobe.</p>
             <div class="bench-chart" id="bench-household" role="group" aria-labelledby="bench-household-title">
               <div class="bench-ylab" aria-hidden="true"><span>100</span><span>50</span><span>0</span></div>
               <div class="bench-plot">
@@ -231,16 +231,23 @@
         </div>
         <div class="task-keys" id="task-keys">
           <div class="pills" id="pills" role="tablist" aria-label="Evaluation tasks">
-            <button type="button" role="tab" id="task-tab-t2" aria-controls="task-panel" aria-selected="true" data-task="t2">Black-item pickup</button>
-            <button type="button" role="tab" id="task-tab-t3" aria-controls="task-panel" aria-selected="false" data-task="t3">Black-item stocking</button>
-            <button type="button" role="tab" id="task-tab-t4" aria-controls="task-panel" aria-selected="false" data-task="t4">White-item pickup</button>
-            <button type="button" role="tab" id="task-tab-t5" aria-controls="task-panel" aria-selected="false" data-task="t5">White-item stocking</button>
-            <button type="button" role="tab" id="task-tab-t6" aria-controls="task-panel" aria-selected="false" data-task="t6">Bimanual storage</button>
-            <button type="button" role="tab" id="task-tab-t7" aria-controls="task-panel" aria-selected="false" data-task="t7">Garment hanging</button>
-            <button type="button" role="tab" id="task-tab-t8" aria-controls="task-panel" aria-selected="false" data-task="t8">Laundry basket</button>
+            <button type="button" role="tab" id="task-tab-t2" aria-controls="task-panel" aria-selected="true" data-task="t2">Black Material Picking</button>
+            <button type="button" role="tab" id="task-tab-t3" aria-controls="task-panel" aria-selected="false" data-task="t3">Black Material Shelf Stocking</button>
+            <button type="button" role="tab" id="task-tab-t4" aria-controls="task-panel" aria-selected="false" data-task="t4">White Material Picking</button>
+            <button type="button" role="tab" id="task-tab-t5" aria-controls="task-panel" aria-selected="false" data-task="t5">White Material Shelf Stocking</button>
+            <button type="button" role="tab" id="task-tab-t6" aria-controls="task-panel" aria-selected="false" data-task="t6">Bimanual Object Storage</button>
+            <button type="button" role="tab" id="task-tab-t7" aria-controls="task-panel" aria-selected="false" data-task="t7">Garment Hanging</button>
+            <button type="button" role="tab" id="task-tab-t8" aria-controls="task-panel" aria-selected="false" data-task="t8">Laundry Basket Relocation</button>
           </div>
           <div class="story-list" id="story-list"></div>
         </div>
+      </section>
+
+      <hr>
+
+      <section class="sec" id="intro">
+        <h2 id="conclusion">Conclusion</h2>
+        <p>Awaken-HI uses one action expert to predict both original human motion and retargeted robot actions. Awaken-Human aligns 50,000 hours of first-person stereo recordings with whole-body motion. With more pretraining data, action prediction error on held-out examples falls along an empirical power law, and success on downstream tasks improves. After robot post-training, one policy averages 93.75% success on eight individual loco-manipulation tasks. The same policy generalizes to objects unseen during robot  post-training and to new pairings of familiar objects and destinations. For more details, see the <a href="https://arxiv.org/abs/2611.26420">paper</a>.</p>
       </section>
 
       <hr>
@@ -262,11 +269,6 @@
       </section>
     </article>
 
-    <div class="visitor-section" id="visitors">
-      <canvas id="visitor-globe" role="img" aria-label="Rotating globe showing page views by country or region"></canvas>
-      <div id="globe-tooltip" role="status" hidden></div>
-    </div>
-
     <footer class="colophon">
       <span>EngineAI</span>
       <a href="https://www.engineai.com.cn/" target="_blank" rel="noreferrer">engineai.com.cn</a>
@@ -274,9 +276,7 @@
     </footer>
   </main>
   </div>
-  <script src="script.js?v=46"></script>
+  <script src="script.js?v=47"></script>
   <script src="assets/model-architecture.js?v=9"></script>
-  
-  <script src="visitors.js?v=8"></script>
 </body>
 </html>

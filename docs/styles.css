@@ -417,7 +417,8 @@ h1 {
 .meta { margin: 0; color: var(--muted); font-size: 15px; }
 
 .sec { scroll-margin-top: 88px; }
-#intro { margin-top: var(--section-space); }
+#highlight { margin-top: var(--section-space); }
+#conclusion { scroll-margin-top: inherit; }
 .sec > h2, .sec > p, .sec > .pillar, .sec > .intro-points {
   max-width: var(--text-col);
   margin-inline: auto;
@@ -822,12 +823,6 @@ tr.mean td { font-weight: 750; border-top: 1px solid var(--ink); border-bottom: 
 @media(max-width:600px) {
   .ma-scroll-hint { padding:6px 12px 8px; font-size:10px; }
 }
-
-/* Compact visitor globe, directly on the page. */
-.visitor-section { position:relative; width:160px; margin:18px auto 8px; }
-#visitor-globe { display:block; width:160px; height:160px; touch-action:pan-y; }
-#globe-tooltip { position:absolute; pointer-events:none; white-space:nowrap; background:var(--surface); color:var(--ink); padding:4px 8px; border:1px solid var(--line); border-radius:4px; font-size:11px; z-index:2; }
-
 
 /* One-take video, alternate view and the current action inside the picture. */
 .rollout-layout { display:block; }
